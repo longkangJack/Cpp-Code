@@ -202,7 +202,251 @@ int main()
 	struct test
 	{
 		char m1;
-		double m4;
+		double m4; 
 		int m3;
 	};
 #pragma pack(pop)  // 恢复对齐状态
+	位域
+		Bit mode : 2;   // mode 占 2 位
+		类可以将其（非静态）数据成员定义为位域（bit - field），在一个位域中含有一定数量的二进制位。当
+		一个程序需要向其他程序或硬件设备传递二进制数据时，通常会用到位域。
+		位域在内存中的布局是与机器有关的
+		位域的类型必须是整型或枚举类型，带符号类型中的位域的行为将因具体实现而定
+		取地址运算符（&）不能作用于位域，任何指针都无法指向类的位域
+		extern "C"
+
+		被 extern 限定的函数或变量是 extern 类型的
+		被 extern "C" 修饰的变量和函数是按照 C 语言方式编译和链接的
+		extern "C" 的作用是让 C++ 编译器将 extern "C" 声明的代码当作 C 语言代码处理，可以避免 C++因符号修饰导致代码不能和C语言库中的符号进行链接的问题
+		extern "C" 使用
+#ifdef __cplusplus
+		extern "C" {
+#endif
+			void *memset(void *, int, size_t);
+#ifdef __cplusplus
+		}
+#endif
+		struct 和 typedef struct
+			//c语言中
+			// c
+			typedef struct Student {
+				int age;
+			} S;
+		//等价于
+            此时 S 等价于 struct Student ，但两个标识符名称空间不相同。
+			另外还可以定义与 struct Student 不冲突的 void Student() {} 。
+			C++ 中
+			由于编译器定位符号的规则（搜索规则）改变，导致不同于C语言。
+			一、如果在类标识符空间定义了 struct Student { ... }; ，使用 Student me; 时，编译器将搜索全
+			局标识符表， Student 未找到，则在类标识符内搜索。
+			即表现为可以使用 Student 也可以使用 struct Student ，如下：
+			// cpp
+			struct Student {
+				int age;
+			};
+			void f(Student me);    // 正确，"struct" 关键字可省略
+			typedef struct Student {
+				int age;
+			} S;
+			void Student() {}      // 正确，定义后 "Student" 只代表此函数
+			//void S() {}        // 错误，符号 "S" 已经被定义为一个 "struct Student" 的别
+			名
+				int main() {
+					Student();
+					struct Student me;    // 或者 "S me";
+					return 0;
+				}
+			C++ 中 struct 和 class
+				总的来说，struct 更适合看成是一个数据结构的实现体，class 更适合看成是一个对象的实现体。
+				区别
+				最本质的一个区别就是默认的访问控制
+				1. 默认的继承访问权限。struct 是 public 的，class 是 private 的。
+				2. struct 作为数据结构的实现体，它默认的数据访问控制是 public 的，而 class 作为对象的实
+				现体，它默认的成员变量访问控制是 private 的。
+				// c
+			struct Student {
+				int age;
+			};
+			typedef struct Student S;
+			// cpp
+			struct Student {
+				int age;
+			};
+			void f(Student me);    // 正确，"struct" 关键字可省略
+			typedef struct Student {
+				int age;
+			} S;
+			void Student() {}      // 正确，定义后 "Student" 只代表此函数
+			//void S() {}        // 错误，符号 "S" 已经被定义为一个 "struct Student" 的别
+			名
+				int main() {
+					Student();
+					struct Student me;    // 或者 "S me";
+					return 0;
+				}
+			union 联合
+				联合（union）是一种节省空间的特殊的类，一个 union 可以有多个数据成员，但是在任意时刻只有一
+				个数据成员可以有值。当某个成员被赋值后其他成员变为未定义状态。联合有如下特点：
+				默认访问控制符为 public
+				可以含有构造函数、析构函数
+				不能含有引用类型的成员
+				不能继承自其他类，不能作为基类
+				不能含有虚函数
+				匿名 union 在定义所在作用域可直接访问 union 成员
+				匿名 union 不能包含 protected 成员或 private 成员
+				全局匿名联合必须是静态（static）的
+			union 使用
+				C 实现 C++ 类
+				C 实现 C++ 的面向对象特性（封装、继承、多态）
+				封装：使用函数指针把属性与方法封装到结构体中
+				继承：结构体嵌套
+				多态：父类与子类方法的函数指针不同
+				Can you write object - oriented code in C ? [closed]
+#include<iostream>
+				union UnionTest {
+					UnionTest() : i(10) {};
+					int i;
+					double d;
+				};
+				static union {
+					int i;
+					double d;
+				};
+				int main() {
+					UnionTest u;
+					union {
+						int i;
+						double d;
+					};
+					std::cout << u.i << std::endl;  // 输出 UnionTest 联合的 10
+					::i = 20;
+					std::cout << ::i << std::endl;  // 输出全局静态匿名联合的 20
+					i = 30;
+					std::cout << i << std::endl;   // 输出局部匿名联合的 30
+					return 0;
+				}
+				explicit（显式）关键字
+					explicit 修饰构造函数时，可以防止隐式转换和复制初始化
+					explicit 修饰转换函数时，可以防止隐式转换，但 按语境转换 除外
+					explicit 使用
+					friend 友元类和友元函数
+				struct A
+				{
+					A(int) { }
+					operator bool() const { return true; }
+				};
+				struct B
+				{
+					explicit B(int) {}
+					explicit operator bool() const { return true; }
+				};
+				void doA(A a) {}
+				void doB(B b) {}
+				int main()
+				{
+					A a1(1); // OK：直接初始化
+					A a2 = 1; // OK：复制初始化
+					A a3{ 1 }; // OK：直接列表初始化
+					A a4 = { 1 }; // OK：复制列表初始化
+					A a5 = (A)1; // OK：允许 static_cast 的显式转换
+					doA(1); // OK：允许从 int 到 A 的隐式转换
+					if (a1); // OK：使用转换函数 A::operator bool() 的从 A 到 bool 的隐式转换
+					bool a6（a1）; // OK：使用转换函数 A::operator bool() 的从 A 到 bool 的隐
+					式转换
+						bool a7 = a1; // OK：使用转换函数 A::operator bool() 的从 A 到 bool 的隐式
+					转换
+						bool a8 = static_cast<bool>(a1);  // OK ：static_cast 进行直接初始化
+					B b1(1); // OK：直接初始化
+					B b2 = 1; // 错误：被 explicit 修饰构造函数的对象不可以复制初始化
+					B b3{ 1 }; // OK：直接列表初始化
+					B b4 = { 1 }; // 错误：被 explicit 修饰构造函数的对象不可以复制列表初始化
+					B b5 = (B)1; // OK：允许 static_cast 的显式转换
+					doB(1); // 错误：被 explicit 修饰构造函数的对象不可以从 int 到 B 的隐式转换
+					if (b1); // OK：被 explicit 修饰转换函数 B::operator bool() 的对象可以从 B
+					到 bool 的按语境转换
+						bool b6(b1); // OK：被 explicit 修饰转换函数 B::operator bool() 的对象可
+					以从 B 到 bool 的按语境转换
+						bool b7 = b1; // 错误：被 explicit 修饰转换函数 B::operator bool() 的对象不
+					可以隐式转换
+						bool b8 = static_cast<bool>(b1);  // OK：static_cast 进行直接初始化
+					return 0;
+				}
+				能访问私有成员
+					破坏封装性
+					友元关系不可传递
+					友元关系的单向性
+					友元声明的形式及数量不受限制
+					using
+					using 声明
+					一条 using 声明 语句一次只引入命名空间的一个成员。它使得我们可以清楚知道程序中所引用的到底
+					是哪个名字。如：
+					构造函数的 using 声明
+					在 C++11 中，派生类能够重用其直接基类定义的构造函数。
+					如上 using 声明，对于基类的每个构造函数，编译器都生成一个与之对应（形参列表完全相同）的派生
+					类构造函数。生成如下类型构造函数：
+					using 指示
+					using 指示 使得某个特定命名空间中所有名字都可见，这样我们就无需再为它们添加任何前缀限定符
+					了。如：
+					尽量少使用 using 指示 污染命名空间
+					一般说来，使用 using 命令比使用 using 编译命令更安全，这是由于它只导入了指定的名称。如
+					果该名称与局部名称发生冲突，编译器将发出指示。using编译命令导入所有的名称，包括可能并
+					不需要的名称。如果与局部名称发生冲突，则局部名称将覆盖名称空间版本，而编译器并不会发
+					出警告。另外，名称空间的开放性意味着名称空间的名称可能分散在多个地方，这使得难以准确
+					知道添加了哪些名称。
+					using 使用
+					尽量少使用 using 指示
+					应该多使用 using 声明
+					using namespace_name::name;
+				class Derived : Base {
+				public:
+					using Base::Base;
+				};
+				如上 using 声明，对于基类的每个构造函数，编译器都生成一个与之对应（形参列表完全相同）的派生
+					类构造函数。生成如下类型构造函数：
+					Derived(parms) : Base(args) { }
+					using 指示
+						using namespace_name name;
+					using 指示 使得某个特定命名空间中所有名字都可见，这样我们就无需再为它们添加任何前缀限定符
+						尽量少使用 using 指示 污染命名空间
+						一般说来，使用 using 命令比使用 using 编译命令更安全，这是由于它只导入了指定的名称。如
+						果该名称与局部名称发生冲突，编译器将发出指示。using编译命令导入所有的名称，包括可能并
+						不需要的名称。如果与局部名称发生冲突，则局部名称将覆盖名称空间版本，而编译器并不会发
+						出警告。另外，名称空间的开放性意味着名称空间的名称可能分散在多个地方，这使得难以准确
+						知道添加了哪些名称。
+						using 使用
+						尽量少使用 using 指示
+						应该多使用 using 声明
+						using namespace_name::name;
+					class Derived : Base {
+					public:
+						using Base::Base;
+						  /* ... */
+					};
+					Derived(parms) : Base(args) { }
+					using namespace_name name;
+					using namespace std;
+					或者
+						::范围解析运算符
+						分类
+						1. 全局作用域符（::name ）：用于类型名称（类、类成员、成员函数、变量等）前，表示作用域为
+						全局命名空间
+						2. 类作用域符（ class::name ）：用于表示指定类型的作用域范围是具体某个类的
+						3. 命名空间作用域符（ namespace::name ） : 用于表示指定类型的作用域范围是具体某个命名空间的
+						::使用
+					enum 枚举类型
+						限定作用域的枚举类型
+						不限定作用域的枚举类型
+						int x;
+					std::cin >> x;
+					std::cout << x << std::endl;
+					using std::cin;
+					using std::cout;
+					using std::endl;
+					int x;
+					cin >> x;
+					cout << x << endl;
+
+
+
+
+
