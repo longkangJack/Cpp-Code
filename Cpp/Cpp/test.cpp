@@ -445,6 +445,333 @@ int main()
 					int x;
 					cin >> x;
 					cout << x << endl;
+					: 范围解析运算符
+						分类
+						1. 全局作用域符（::name ）：用于类型名称（类、类成员、成员函数、变量等）前，表示作用域为
+						全局命名空间
+						2. 类作用域符（ class::name ）：用于表示指定类型的作用域范围是具体某个类的
+						3. 命名空间作用域符（ namespace::name ） : 用于表示指定类型的作用域范围是具体某个命名空间的
+						::使用
+					enum 枚举类型
+						限定作用域的枚举类型
+						不限定作用域的枚举类型
+						int x;
+					std::cin >> x;
+					std::cout << x << std::endl;
+					using std::cin;
+					using std::cout;
+					using std::endl;
+					int x;
+					cin >> x;
+					cout << x << endl;
+					int count = 0;     // 全局（::）的 count
+					class A {
+					public:
+						static int count; // 类 A 的 count（A::count）
+					};
+					int main() {
+						::count = 1;    // 设置全局的 count 的值为 1
+						A::count = 2;   // 设置类 A 的 count 为 2
+						int count = 0;   // 局部的 count
+						count = 3;     // 设置局部的 count 的值为 3
+						return 0;
+					}
+					enum class open_modes { input, output, append };
+					enum color { red, yellow, green };
+					enum { floatPrec = 6, doublePrec = 10 };
+					decltype
+						decltype 关键字用于检查实体的声明类型或表达式的类型及值分类。语法：
+						decltype 使用
+						引用
+						左值引用
+						常规引用，一般表示对象的身份。
+						右值引用
+						右值引用就是必须绑定到右值（一个临时对象、将要销毁的对象）的引用，一般表示对象的值。
+						右值引用可实现转移语义（Move Sementics）和精确传递（Perfect Forwarding），它的主要目的有
+						两个方面：
+						消除两个对象交互时不必要的对象拷贝，节省运算存储资源，提高效率。
+						能够更简洁明确地定义泛型函数。
+						引用折叠
+						X& & 、 X& && 、 X&& & 可折叠成 X&
+						X&& && 可折叠成 X&&
+						宏
+						宏定义可以实现类似于函数的功能，但是它终归不是函数，而宏定义中括弧中的“参数”也不是真的
+						参数，在宏展开的时候对 “参数” 进行的是一对一的替换。
+						成员初始化列表
+						好处
+						更高效：少了一次调用默认构造函数的过程。
+						有些场合必须要用初始化列表：
+						1. 常量成员，因为常量只能初始化不能赋值，所以必须放在初始化列表里面
+						decltype (expression)
+						// 尾置返回允许我们在参数列表之后声明返回类型
+						template <typename It>
+					auto fcn(It beg, It end) -> decltype(*beg)
+					{
+						// 处理序列
+						return *beg;   // 返回序列中一个元素的引用
+					}
+					// 为了使用模板参数成员，必须用 typename
+					template <typename It>
+					auto fcn2(It beg, It end) -> typename remove_reference<decltype(*beg)>::type
+					{
+						// 处理序列
+						return *beg;   // 返回序列中一个元素的拷贝
+						引用
+							左值引用
+							常规引用，一般表示对象的身份。
+							右值引用
+							右值引用就是必须绑定到右值（一个临时对象、将要销毁的对象）的引用，一般表示对象的值。
+							右值引用可实现转移语义（Move Sementics）和精确传递（Perfect Forwarding），它的主要目的有
+							两个方面：
+							消除两个对象交互时不必要的对象拷贝，节省运算存储资源，提高效率。
+							能够更简洁明确地定义泛型函数。
+							引用折叠
+							X& & 、 X& && 、 X&& & 可折叠成 X&
+							X&& && 可折叠成 X&&
+							宏
+							宏定义可以实现类似于函数的功能，但是它终归不是函数，而宏定义中括弧中的“参数”也不是真的
+							参数，在宏展开的时候对 “参数” 进行的是一对一的替换。
+							成员初始化列表
+							好处
+							更高效：少了一次调用默认构造函数的过程。
+							有些场合必须要用初始化列表：
+							1. 常量成员，因为常量只能初始化不能赋值，所以必须放在初始化列表里面
+							decltype (expression)
+							// 尾置返回允许我们在参数列表之后声明返回类型
+							template <typename It>
+						auto fcn(It beg, It end) -> decltype(*beg)
+						{
+							// 处理序列
+							return *beg;   // 返回序列中一个元素的引用
+						}
+						// 为了使用模板参数成员，必须用 typename
+						template <typename It>
+						auto fcn2(It beg, It end) -> typename remove_reference<decltype(*beg)>::type
+						{
+							// 处理序列
+							return *beg;   // 返回序列中一个元素的拷贝
+						}
+						2. 引用类型，引用必须在定义的时候初始化，并且不能重新赋值，所以也要写在初始化列表里
+							面
+							3. 没有默认构造函数的类类型，因为使用初始化列表可以不必调用默认构造函数来初始化
+							initializer_list 列表初始化
+							用花括号初始化器列表初始化一个对象，其中对应构造函数接受一个 std::initializer_list 参数.
+							initializer_list 使用
+#include <iostream>
+#include <vector>
+#include <initializer_list>
+							template <class T>
+						struct S {
+							std::vector<T> v;
+							S(std::initializer_list<T> l) : v(l) {
+								std::cout << "constructed with a " << l.size() << "-element list\n";
+							}
+							void append(std::initializer_list<T> l) {
+								v.insert(v.end(), l.begin(), l.end());
+							}
+							std::pair<const T*, std::size_t> c_arr() const {
+								return{ &v[0], v.size() };  // 在 return 语句中复制列表初始化
+								// 这不使用 std::initializer_list
+							}
+						};
+						template <typename T>
+						void templated_fn(T) {}
+						int main()
+						{
+							S<int> s = { 1, 2, 3, 4, 5 }; // 复制初始化
+							s.append({ 6, 7, 8 });    // 函数调用中的列表初始化
+							std::cout << "The vector size is now " << s.c_arr().second << " ints:\n";
+							for (auto n : s.v)
+								std::cout << n << ' ';
+							std::cout << '\n';
+							std::cout << "Range-for over brace-init-list: \n";
+							for (int x : {-1, -2, -3}) // auto 的规则令此带范围 for 工作
+								std::cout << x << ' ';
+							std::cout << '\n';
+							auto al = { 10, 11, 12 };  // auto 的特殊规则
+							std::cout << "The list bound to auto has size() = " << al.size() << '\n';
+							//  templated_fn({1, 2, 3}); // 编译错误！“ {1, 2, 3} ”不是表达式，
+							// 它无类型，故 T 无法推导
+							templated_fn<std::initializer_list<int>>({ 1, 2, 3 }); // OK
+							templated_fn<std::vector<int>>({ 1, 2, 3 });      // 也 OK
+							面向对象
+								面向对象程序设计（Object - oriented programming，OOP）是种具有对象概念的程序编程典范，同时
+								也是一种程序开发的抽象方针。
+								面向对象三大特征 —— 封装、继承、多态
+								封装
+								把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的
+								进行信息隐藏。关键字：public, protected, private。不写默认为 private。
+								public 成员：可以被任意实体访问
+								protected 成员：只允许被子类及本类的成员函数访问
+								private 成员：只允许被本类的成员函数、友元类或友元函数访问
+								继承
+								基类（父类）——> 派生类（子类）
+								多态
+								多态，即多种状态（形态）。简单来说，我们可以将多态定义为消息以多种形式显示的能力。
+								多态是以封装和继承为基础的。
+								C++ 多态分类及实现：
+								1. 重载多态（Ad - hoc Polymorphism，编译期）：函数重载、运算符重载
+								2. 子类型多态（Subtype Polymorphism，运行期）：虚函数
+								3. 参数多态性（Parametric Polymorphism，编译期）：类模板、函数模板
+								4. 强制多态（Coercion Polymorphism，编译期 / 运行期）：基本类型转换、自定义类型转换
+								The Four Polymorphisms in C++
+								静态多态（编译期 / 早绑定）
+								函数重载
+						}
+						动态多态（运行期期 / 晚绑定）
+							虚函数：用 virtual 修饰成员函数，使其成为虚函数
+							注意：
+							普通函数（非类成员函数）不能是虚函数
+							静态函数（static）不能是虚函数
+							构造函数不能是虚函数（因为在调用构造函数时，虚表指针并没有在对象的内存空间中，必须要构
+							造函数调用完成后才会形成虚表指针）
+							内联函数不能是表现多态性时的虚函数，解释见：虚函数（virtual）可以是内联函数（inline）
+							吗？
+							动态多态使用
+						class A
+						{
+						public:
+							void do(int a);
+							void do(int a, int b);
+							动态多态（运行期期 / 晚绑定）
+								虚函数：用 virtual 修饰成员函数，使其成为虚函数
+								注意：
+								普通函数（非类成员函数）不能是虚函数
+								静态函数（static）不能是虚函数
+								构造函数不能是虚函数（因为在调用构造函数时，虚表指针并没有在对象的内存空间中，必须要构
+								造函数调用完成后才会形成虚表指针）
+								内联函数不能是表现多态性时的虚函数，解释见：虚函数（virtual）可以是内联函数（inline）
+								吗？
+								动态多态使用
+							class A
+							{
+							public:
+								void do(int a);
+								void do(int a, int b);
+							};
+							class Shape           // 形状类
+							{
+							public:
+								virtual double calcArea()
+								{
+									...
+								}
+								virtual ~Shape();
+							};
+							class Circle : public Shape   // 圆形类
+							{
+							public:
+								virtual double calcArea();
+								...
+							};
+							class Rect : public Shape    // 矩形类
+							{
+							public:
+								virtual double calcArea();
+								...
+							};
+							int main()
+							{
+								Shape * shape1 = new Circle(4.0);
+								Shape * shape2 = new Rect(5.0, 6.0);
+								shape1->calcArea();     // 调用圆形类里面的方法
+								shape2->calcArea();     // 调用矩形类里面的方法
+								delete shape1;
+								shape1 = nullptr;
+								delete shape2;
+								shape2 = nullptr;
+								return 0;
+							}
+							虚析构函数
+								虚析构函数是为了解决基类的指针指向派生类对象，并用基类的指针删除派生类对象。
+								虚析构函数使用
+								纯虚函数
+								纯虚函数是一种特殊的虚函数，在基类中不能对虚函数给出有意义的实现，而把它声明为纯虚函数，它
+								的实现留给该基类的派生类去做。
+								虚函数、纯虚函数
+								类里如果声明了虚函数，这个函数是实现的，哪怕是空实现，它的作用就是为了能让这个函数在它
+								的子类里面可以被覆盖（override），这样的话，编译器就可以使用后期绑定来达到多态了。纯虚
+								函数只是一个接口，是个函数的声明而已，它要留到子类里去实现。
+								虚函数在子类里面可以不重写；但纯虚函数必须在子类实现才可以实例化子类。
+								虚函数的类用于 “实作继承”，继承接口的同时也继承了父类的实现。纯虚函数关注的是接口的统一
+								性，实现由子类完成。
+								带纯虚函数的类叫抽象类，这种类不能直接生成对象，而只有被继承，并重写其虚函数后，才能使
+								用。抽象类被继承后，子类可以继续是抽象类，也可以是普通类。
+								虚基类是虚继承中的基类，具体见下文虚继承。
+								CSDN.C++ 中的虚函数、纯虚函数区别和联系
+								虚函数指针、虚函数表
+								虚函数指针：在含有虚函数类的对象中，指向虚函数表，在运行时确定。
+								虚函数表：在程序只读数据段（.rodata section ，见：目标文件存储结构），存放虚函数指
+								针，如果派生类实现了基类的某个虚函数，则在虚表中覆盖原本基类的那个虚函数指针，在编译时
+							class Shape
+							{
+							public:
+								Shape();           // 构造函数不能是虚函数
+								virtual double calcArea();
+								virtual ~Shape();      // 虚析构函数
+							};
+							class Circle : public Shape   // 圆形类
+							{
+							public:
+								virtual double calcArea();
+								...
+							};
+							int main()
+							{
+								Shape * shape1 = new Circle(4.0);
+								shape1->calcArea();
+								delete shape1;  // 因为Shape有虚析构函数，所以delete释放内存时，先调用子类析构函数，
+								再调用基类析构函数，防止内存泄漏。
+									shape1 = NULL;
+								return 0；
+							}
+							virtual int A() = 0;
+							根据类的声明创建。
+								C++中的虚函数(表)实现机制以及用C语言对其进行的模拟实现
+								虚继承
+								虚继承用于解决多继承条件下的菱形继承问题（浪费存储空间、存在二义性）。
+								底层实现原理与编译器相关，一般通过虚基类指针和虚基类表实现，每个虚继承的子类都有一个虚基类
+								指针（占用一个指针的存储空间，4字节）和虚基类表（不占用类对象的存储空间）（需要强调的是，
+								虚基类依旧会在子类里面存在拷贝，只是仅仅最多存在一份而已，并不是不在子类里面了）；当虚继承
+								的子类被当做父类继承时，虚基类指针也会被继承。
+								实际上，vbptr 指的是虚基类表指针（virtual base table pointer），该指针指向了一个虚基类表
+								（virtual table），虚表中记录了虚基类与本类的偏移地址；通过偏移地址，这样就找到了虚基类成
+								员，而虚继承也不用像普通多继承那样维持着公共基类（虚基类）的两份同样的拷贝，节省了存储空
+								间。
+								虚继承、虚函数
+								相同之处：都利用了虚指针（均占用类的存储空间）和虚表（均不占用类的存储空间）
+								不同之处：
+								虚继承
+								虚基类依旧存在继承类中，只占用存储空间
+								虚基类表存储的是虚基类相对直接继承类的偏移
+								虚函数
+								虚函数不占用存储空间
+								虚函数表存储的是虚函数地址
+								模板类、成员模板、虚函数
+								模板类中可以使用虚函数
+								一个类（无论是普通类还是类模板）的成员模板（本身是模板的成员函数）不能是虚函数
+								抽象类、接口类、聚合类
+								抽象类：含有纯虚函数的类
+								接口类：仅含有纯虚函数的抽象类
+								聚合类：用户可以直接访问其成员，并且具有特殊的初始化语法形式。满足如下特点：
+								所有成员都是 public
+								没有定义任何构造函数
+								没有类内初始化
+								没有基类，也没有 virtual 函数
+								内存分配和管理
+								malloc、calloc、realloc、alloca
+								1. malloc：申请指定字节数的内存。申请到的内存中的初始值不确定。
+								2. calloc：为指定长度的对象，分配能容纳其指定个数的内存。申请到的内存的每一位（bit）都初始
+								化为 0。
+								3. realloc：更改以前分配的内存长度（增加或减少）。当增加长度时，可能需将以前分配区的内容
+								移到另一个足够大的区域，而新增区域内的初始值则不确定。
+								4. alloca：在栈上申请内存。程序在出栈的时候，会自动释放内存。但是需要注意的是，alloca 不具
+								可移植性, 而且在没有传统堆栈的机器上很难实现。alloca 不宜使用在必须广泛移植的程序中。
+								C99 中支持变长数组(VLA)，可以用来替代 alloca。
+								malloc、free
+								用于分配、释放内存
+								malloc、free 使用
+								申请内存，确认是否申请成功
 
 
 
