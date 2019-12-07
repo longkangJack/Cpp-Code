@@ -24,6 +24,13 @@ public:
 	Int& operator*=(const Int& x);
 	Int& operator/=(const Int& x);
 	Int& operator%=(const Int& x);
+public:
+	bool operator==(const Int& x);
+	bool operator!=(const Int& x);
+	bool operator>(const Int& x);
+	bool operator<=(const Int& x);
+	bool operator<(const Int& x);
+	bool operator>=(const Int& x);
 private:
 	int m_i;
 };
@@ -58,7 +65,6 @@ Int Int::operator%(const Int& x)
 	return Int(m_i % x.m_i);
 }
 /////////////////////////////////////////////////////
-
 Int& Int::operator+=(const Int& x)
 {
 	m_i += x.m_i;
@@ -86,6 +92,38 @@ Int& Int::operator%=(const Int& x)
 	m_i %= x.m_i;
 	return *this;
 }
+//////////////////////////////////////////////////////////////
+bool Int::operator==(const Int& x)
+{
+	return m_i == x.m_i;
+}
+bool Int::operator!=(const Int& x)
+{
+
+	//return m_i != x.m_i;
+
+	return !(*this == x);
+}
+bool Int::operator>(const Int& x)
+{
+	return m_i > x.m_i;
+}
+bool Int::operator<=(const Int& x)
+{
+	//return m_i <= x.m_i;
+	return !(*this > x);
+}
+
+bool Int::operator<(const Int& x)
+{
+	return m_i < x.m_i;
+}
+bool Int::operator>=(const Int& x)
+{
+
+	//return m_i >= x.m_i;
+	return !(*this < x);
+}
 void main()
 {
 	/*Int i;
@@ -97,6 +135,9 @@ void main()
 	cout << "v = " << v << endl;
 
 }
+
+
+
 /*class Date 
 {
 public:
