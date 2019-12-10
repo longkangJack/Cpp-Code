@@ -3,7 +3,75 @@ using namespace std;
 
 
 
-class ListNode
+//c++动态内存管理
+class Test
+{
+public:
+	Test(int data = 0) :m_data(data)
+	{
+		cout << "Create Test Object:" << this << endl;
+	}
+	//初始化构造函数
+	Test(const Test& t)
+	{
+		cout << "Copy Create Test Object:" << this << endl;
+	}
+	//拷贝构造函数
+	Test& operator = (const Test& t)
+	{
+		if (this != &t)
+		{
+			m_data = t.m_data;
+		}
+		return *this;
+	}
+	//operator 重载操作符的关键字
+	~Test()
+	{
+		cout << "Free Test Object :" << this << endl;
+	}
+	//析构函数
+public:
+	void InitObject(int data = 0)
+	{
+		cout << "Init Test Object" << endl;
+		m_data = data;
+	}
+	void DestoryObject()
+	{
+		cout << "Destory Test Object." << endl;
+	}
+public:
+	int GetData()const
+	{
+		return m_data;
+	}
+private:
+	int m_data;
+
+};
+//内部实现new 和 delete
+void* operator new(size_t sz)
+{
+	void* p = malloc(sz);
+	return p;
+}
+void operator delete(void* ptr)
+{
+	free(ptr);
+}
+int main()
+{
+	Test *pt = new Test;
+	delete pt;//申请单个对象的空间方法
+	//申请多的对象的方法
+	Test* pt1 = new Test[10];
+	delete[]pt1;//调用构造函数和析构函数
+	system("color 80");
+	return 0;
+}
+
+/*class ListNode
 {
 	friend class List;
 public:
