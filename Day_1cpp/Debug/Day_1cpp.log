@@ -1,0 +1,6 @@
+﻿  test.cpp
+C:\Users\longkangJack\Desktop\学习\编程学习\Cpp-Code\Day_1cpp\test.cpp(6,1): warning C4326: “main”的返回类型应为“int”而非“void”
+C:\Users\longkangJack\Desktop\学习\编程学习\Cpp-Code\Day_1cpp\test.cpp(8,25): error C2059: 语法错误:“?”
+C:\Users\longkangJack\Desktop\学习\编程学习\Cpp-Code\Day_1cpp\test.cpp(9,26): error C2059: 语法错误:“?”
+C:\Users\longkangJack\Desktop\学习\编程学习\Cpp-Code\Day_1cpp\test.cpp(10,17): error C2059: 语法错误:“?”
+C:\Users\longkangJack\Desktop\学习\编程学习\Cpp-Code\Day_1cpp\test.cpp(11,18): error C2059: 语法错误:“?”
