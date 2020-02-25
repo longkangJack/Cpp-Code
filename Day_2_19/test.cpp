@@ -5,36 +5,30 @@ using namespace std;
 
 
 
-
-
-
-
-
-
 //swap用法
-//int main()
-//{
-//	vector<int> v1 = { 1,2,3,4,5,6,7,8,9,10 };
-//	vector<int> v2 = { 11,22,33,44,55,66,77,88,99,10 };
-//	auto p = find(v1.begin(), v1.end(), 5);
-//	auto p1 = find(v1.begin(), v1.end(), 10);
-//	// it = v1.erase(p, p1);//可以删除一个 可以删除区间
-//
-//	v1.swap(v2);
-//	for (auto& e : v1)
-//		cout << e << " ";
-//	cout << endl;
-//	for (auto& e : v2)
-//		cout << e << " ";
-//	cout << endl;
-//	return 0;
-//}
+int main()
+{
+	vector<int> v1 = { 1,2,3,4,5,6,7,8,9,10 };
+	vector<int> v2 = { 11,22,33,44,55,66,77,88,99,10 };
+	auto p = find(v1.begin(), v1.end(), 5);
+	auto p1 = find(v1.begin(), v1.end(), 10);
+	// it = v1.erase(p, p1);//可以删除一个 可以删除区间
+
+	v1.swap(v2);
+	for (auto& e : v1)
+		cout << e << " ";
+	cout << endl;
+	for (auto& e : v2)
+		cout << e << " ";
+	cout << endl;
+	return 0;
+}
 //erase用法
-//int main()
-//{
-//	vector<int> v1 = { 1,2,3,4,5,6,7,8,9,10 };
-//	auto p = find(v1.begin(), v1.end(), 5);
-//	auto p1 = find(v1.begin(), v1.end(), 10);
+int main()
+{
+	vector<int> v1 = { 1,2,3,4,5,6,7,8,9,10 };
+	auto p = find(v1.begin(), v1.end(), 5);
+	auto p1 = find(v1.begin(), v1.end(), 10);
 //	auto it = v1.erase(p,p1);//可以删除一个 可以删除区间
 //	for (auto& e : v1)
 //		cout << e << " ";
