@@ -1,8 +1,10 @@
 #include<iostream>
 #include<list>
 #include<assert.h>
+#include<stdio.h>
 using namespace std;
 //List模拟实现
+//迭代器失效有 string vector list
 
 class Test
 {
@@ -178,6 +180,7 @@ int main()
 	bit::list<int> mylist(arr,arr+5);
 	//bit::list<int> mylist(10，1);
 	bit::list<int> yourlist(mylist);
+
 	//mylist.swap(yourlist);
 	for (auto& e : yourlist)
 		cout << e << "-->";
@@ -204,5 +207,5 @@ int main()
 //	}
 //	cout << "Over." << endl;*/
 //	return 0;
-//}
+//}*/
 

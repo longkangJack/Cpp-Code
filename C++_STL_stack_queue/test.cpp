@@ -3,9 +3,29 @@
 #include<queue>
 #include<vector>
 #include<list>
+#include<deque>
 using namespace std;
 
-namespace bit
+
+//优先队列
+//堆
+
+
+
+
+//双向队列
+/*int main()
+{
+
+	deque<int> de;
+	de.push_back(1);
+	de.push_front(2);
+	for (const auto& e : de)
+		cout << e << " ";
+	cout << endl;
+	return 0;
+}
+/*namespace bit
 {
 	//队列的实现
 	template<class T>
