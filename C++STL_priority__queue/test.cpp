@@ -1,9 +1,51 @@
 #include<iostream>
 #include<stack>
+#include<string>
 #include<vector>
 #include<queue>
 #include<assert.h>
 using namespace std;
+//全特化
+template<class T1,class T2>
+class Data
+{
+public:
+	Data()
+	{
+		cout << "Data<int,int>"<<endl;
+	}
+private:
+	T1 d1;
+	T2 d2;
+};
+
+//template<class T>
+//bool IsEqual(T& left, T& right)
+//{
+//	return left == right;
+//}
+//int main()
+//{
+//	string s1("abc");
+//	string s2("xyz");
+//	if (IsEqual(s1, s2))
+//		cout << "Equal";
+//	cout << "not Equal";	
+//	return 0;
+//}
+
+//类型参数   //非类型参数  
+/*template<class Type, size_t _N=10>//类型参数
+class Array
+{
+private:
+	Type Ar[_N];
+};
+int main()
+{
+	Array<int,100> ar;
+	return 0;
+}
 //template<class Ty = void>
 //struct plus
 //{
@@ -20,7 +62,7 @@ using namespace std;
 //    return 0;
 //}
 //优先队列的模拟实现
-namespace bit
+/*namespace bit
 {
 	template<class T>
 	struct less
