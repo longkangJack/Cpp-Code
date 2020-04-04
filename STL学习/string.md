@@ -1,6 +1,6 @@
-## **什么是string
+## String学习总结
 
-1、基本概念
+### 1、基本概念
 
 本质
 
@@ -16,7 +16,8 @@ string类内部封装了很多成员方法
 例如：查找find，拷贝copy，删除delete 替换replace，插入insert
 string管理char*所分配的内存，不用担心复制越界和取值越界等，由类内部进行负责
 
-2、构造函数原型
+### 2、构造函数原型
+
 创建一个空的字符串例如：string
 
 ```c++
@@ -51,7 +52,7 @@ cout<<s2<<endl;
 
 ```
 
-3、赋值操作
+### 3、赋值操作
 
 char *类型字符串赋值给当前的字符串
 
@@ -119,7 +120,7 @@ cout<<"str="<<str<<endl;
 
 ```
 
-4、字符串拼接
+### 4、字符串拼接
 
 （1）重载+=操作符
 
@@ -180,36 +181,76 @@ cout<<"str="<<str<<endl;
 
 ```
 
-5、查找和替换
+### 5、查找和替换
+
 find是从左往右，rfind是从右往左
 （1）查找str第一次出现位置，从pos开始查找
-`string str="abcdef";`
-`int pos=str.find("de");`
-`if(pos==-1)`
-`{`
-    `cout<<"未找到"<<endl;`
-`}`
-`else`
-`{`
- `cout<<"找到字符串下标为："<<pos<<endl;`
-`}`
+
+```C++
+string str="abcdef";
+
+int pos=str.find("de");
+
+if(pos==-1)
+
+{
+
+cout<<"未找到"<<endl;
+
+}else
+
+{
+
+cout<<"找到字符串下标为："<<pos<<endl;
+
+}
+```
+
 （2）查找s第一次出现位置，从pos开始查找
+
+```C++
 int find（const char *s，int pos=0）const；
+```
+
 （3）从pos位置查找s的前n个字符第一次位置
-int find（const char*s，int pos，int n）const；
-（4）查找字符c第一次出现位置
-·int find（const char c，int pos =0）const
-（5）查找str最后一次位置，从pos开始查找
-·int rfind（const string&str，int pos =npos）const；
-（6）查找s最后一次出现位置，从pos开始查找
-·int rfind（const char *s，int pos =npos）const；
-（7）从pos查找s的前n个字符最后一次位置
-·int rfind（const char*s，int pos，int n）const
-（8）查找字符c最后一次出现位置
-int rfind（const char c，int pos=0）const
-（9）替换从pos开始n个字符为字符串str
 
 ```
+int find（const char*s，int pos，int n）const；
+```
+
+（4）查找字符c第一次出现位置
+
+```
+·int find（const char c，int pos =0）const
+```
+
+（5）查找str最后一次位置，从pos开始查找
+
+```C++
+·int rfind（const string&str，int pos =npos）const；
+```
+
+（6）查找s最后一次出现位置，从pos开始查找
+
+```C++
+·int rfind（const char *s，int pos =npos）const；
+```
+
+（7）从pos查找s的前n个字符最后一次位置
+
+```C++
+·int rfind（const char*s，int pos，int n）const
+```
+
+（8）查找字符c最后一次出现位置
+
+```C++
+int rfind（const char c，int pos=0）const
+```
+
+（9）替换从pos开始n个字符为字符串str
+
+```C++
 ·string& replace（int pos，int n，const  string& str）
 ```
 
@@ -227,18 +268,14 @@ str.replace(1,3,"11111");
 cout<<"str="<<str;
 ```
 
-6、比较
-函数原型
+### 6、比较
 
-6、比较
 函数原型
 
 ```c++
 int compare(const string &s)const;
 int compare(const char *s)const;
 ```
-
-代码
 
 代码
 
@@ -251,13 +288,8 @@ if(str1.compare(str2)==0)
 }
 ```
 
-7、字符存取
-str.size()可以返回字符串长度
-读取
+### 7、字符存取
 
-修改
-
-7、字符存取
 str.size()可以返回字符串长度
 读取
 
@@ -271,9 +303,7 @@ str.at(1)='q';
 cout<<"str="<<str<<endl;
 ```
 
-8、插入和删除
-
-8、插入和删除
+### 8、插入和删除
 
 ```c++
 ·string& insert（int pos，const char* s）；//插入字符串
@@ -293,19 +323,14 @@ str.erase(1,3);
 cout<<"str="<<str<<endl;
 ```
 
-9、子串
-从字符串中截取一段字串
-函数原型
+### 9、子串
 
-9、子串
 从字符串中截取一段字串
 函数原型
 
 ```c++
 string   substr(int   pos= 0, int  n = npos) const;
 ```
-
-代码
 
 代码
 
