@@ -35,3 +35,187 @@ int max_size() const:返回最大可允许的双端对了元素数量值
 (7)    其他函数
 void swap(deque&):交换两个同类型向量的数据
 void assign(int n,const T& x):向量中第n个元素的值设置为x
+
+``` c++
+
+// deque.cpp : 定义控制台应用程序的入口点。
+
+#include "stdafx.h"
+#include<iostream>
+
+#include<deque>
+
+ 
+
+using namespace std;
+
+int _tmain(int argc, _TCHAR* argv[])
+
+{
+
+	deque<int> d;
+
+	d.push_back( 10 );
+
+	d.push_back(20);
+
+	d.push_back(30);
+
+	cout<<"原始双端队列："<<endl;
+
+	for(int i = 0; i < d.size(); i++)
+
+	{
+
+		cout<<d.at(i)<<"\t";
+
+	}
+
+	cout<<endl;
+
+	d.push_front(5);
+
+	d.push_front(3);
+
+	d.push_front(1);
+
+ 
+
+	cout<<"after push_front(5.3.1):"<<endl;
+
+	for(int i = 0;i < d.size();i++)
+
+	{
+
+		cout<<d.at(i)<<"\t";
+
+	}
+
+	cout<<endl;
+
+	d.pop_front();
+
+	d.pop_front();
+
+	cout<<"after pop_front() two times:"<<endl;
+
+	for(int i = 0;i < d.size();i++)
+
+	{
+
+		cout<<d.at(i)<<"\t";
+
+	}
+
+	cout<<endl;
+
+	return 0;
+
+}
+
+```
+
+2.常规操作
+
+```C++
+
+#include <deque>  
+
+#include <cstdio>  
+
+#include <algorithm>  
+
+using namespace std;  
+
+int main()  
+
+{  
+
+    deque<int> ideq(20); //Create a deque ideq with 20 elements of default value 0  
+
+    deque<int>::iterator pos;  
+
+    int i;  
+
+    for (i = 0; i < 20; ++i)  
+
+        ideq[i] = i;  
+
+  
+
+    printf("输出deque中数据:\n");  
+
+    for (i = 0; i < 20; ++i)  
+
+        printf("%d ", ideq[i]);  
+
+    putchar('\n');  
+
+  
+
+    //在头尾加入新数据  
+
+    printf("\n在头尾加入新数据...\n");  
+
+    ideq.push_back(100);  
+
+    ideq.push_front(i);  
+
+  
+
+    //输出deque  
+
+    printf("\n输出deque中数据:\n");  
+
+    for (pos = ideq.begin(); pos != ideq.end(); pos++)  
+
+        printf("%d ", *pos);  
+
+    putchar('\n');  
+
+  
+
+    //查找  
+
+    const int FINDNUMBER = 19;  
+
+    printf("\n查找%d\n", FINDNUMBER);  
+
+    pos = find(ideq.begin(), ideq.end(), FINDNUMBER);//注意迭代器类型在此查找  
+
+    if (pos != ideq.end())  
+
+        printf("find %d success\n", *pos);  
+
+    else  
+
+        printf("find failed\n");  
+
+  
+
+    //在头尾删除数据  
+
+    printf("\n在头尾删除数据...\n");  
+
+    ideq.pop_back();  
+
+    ideq.pop_front();  
+
+  
+
+    //输出deque  
+
+    printf("\n输出deque中数据:\n");  
+
+    for (pos = ideq.begin(); pos != ideq.end(); pos++)  
+
+        printf("%d ", *pos);  
+
+    putchar('\n');  
+
+    return 0;  
+
+}  
+
+```
+
